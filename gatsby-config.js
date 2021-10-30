@@ -1,38 +1,41 @@
+require("dotenv").config()
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-    siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    siteTitle: "gatsby-starter-shopify",
+    siteTitleDefault: "gatsby-starter-shopify by @GatsbyJS",
+    siteUrl: "https://shopify-demo.gatsbyjs.com",
+    hrefLang: "en",
+    siteDescription:
+      "A Gatsby starter using the latest Shopify plugin showcasing a store with product overview, individual product pages, and a cart.",
+    siteImage: "/default-og-image.jpg",
+    twitter: "@gatsbyjs",
+  },
+  flags: {
+    FAST_DEV: true,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-image`,
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: "gatsby-source-shopify",
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
+        password: process.env.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,
+        storeUrl: process.env.stc-test-headless.myshopify.com,
+        shopifyConnections: ["collections"],
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-plugin-manifest`,
+    "gatsby-plugin-image",
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    "gatsby-plugin-react-helmet",
+    "gatsby-plugin-sitemap",
+    "gatsby-plugin-gatsby-cloud",
+    // Add your Google Analytics ID to the .env file to enable
+    // Otherwise, this plugin can be removed
+    process.env.GOOGLE_ANALYTICS_ID && {
+      resolve: "gatsby-plugin-google-analytics",
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
-        start_url: `/`,
-        background_color: `#663399`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        trackingId: process.env.GOOGLE_ANALYTICS_ID,
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
-  ],
+  ].filter(Boolean),
 }
